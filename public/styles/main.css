@@ -1,0 +1,295 @@
+html {
+    background-image: url(https://source.unsplash.com/1920x1080/?nature);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+h1 {
+    color: #fff;
+    text-shadow:3px 3px 5px purple;
+}
+
+h1, h4, h3 {
+    margin: 0;
+}
+
+body {
+    padding: 20px;
+    padding-top: 60px;
+    position: relative;
+    top: 0px;
+    background: #fff;
+    color: #545454;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: auto;
+    width: 700px;
+}
+
+#banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /*background-color: #0b96a3;*/
+    background: linear-gradient(-10deg, #c10dbb, #6542f4);
+    padding: 10px;
+    padding-left: 50px;
+    box-shadow: 0px 2px 15px;
+    box-sizing: border-box;
+}
+
+#week h3, #web h3, #finals h3, #todo h3, #classList h3 {
+    width: 100%;
+    border-bottom-style: inset;
+    border-bottom-color: #c2c6c2;
+    border-bottom-width: 1px;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+#days, #web div, #fins {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+#web, #finals {
+    flex-grow: 1;
+    padding: 0px 15px;
+    margin: 0px 10px;
+}
+
+#days div{
+    text-align: center;
+    min-width: 200px;
+    min-height: 200px;
+    margin: 10px auto;
+    background-color: #bad8ba;
+    border-radius: 5px;
+    padding: 10px 0px;
+}
+
+#days h4{
+    width: 90%;
+    margin: auto;
+    border-bottom-style: outset;
+    border-bottom-width: 1px;
+}
+
+#web a, #fins p, #clssCont div {
+    min-width: 100px;
+    min-height: 25px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ceafed;
+    margin: 10px auto;
+}
+
+#finals, #web {
+    padding: 0px;
+}
+
+#fins p {
+    background-color: #f4dc55;
+}
+
+#clssCont div {
+    display: flex;
+    justify-content: space-between;
+    min-width: 125px;
+    text-align: left;
+    background-color: #7aadff;
+}
+
+#webAndFinalsContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#clssCont {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#todo ul{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 0px;
+}
+
+form h4 {
+    margin-top: 10px;
+}
+
+li {
+    width: 100%;
+    background-color: #edb297;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 20px;
+    padding-left: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete {
+    width: 20px;
+    height: 20px;
+    margin: auto 0px;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+.delete:hover {
+    border-style: outset;
+    cursor: pointer;
+}
+
+.delete:active {
+    border-style: inset;
+}
+
+.add {
+    float: right;
+    margin-right: 5%;
+    padding-bottom: 8px;
+}
+
+#todoButton, #classButton {
+    border-style: dashed;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 15px;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+#todoButton:hover, #classButton:hover {
+    background-color: #561677;
+    text-shadow: none;
+    cursor: pointer;
+}
+
+#formBackground {
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#addNewTodo {
+    width: 300px;
+    position: fixed;
+    left: 50%;
+    right: 50%;
+    margin-top: 200px;
+    margin-left: -150px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 5px 5px 15px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#addNewClass {
+    width: 500px;
+    position: fixed;
+    left: 50%;
+    right: 50%;
+    margin-top: 100px;
+    margin-left: -250px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 5px 5px 15px;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: scroll;
+    max-height: 400px;
+}
+
+#lecTimeContainer, #finTimeContainer {
+    display: flex;;
+    justify-content: space-around;
+    margin-top: 10px auto;
+}
+
+.inputText {
+    width: 90%;
+    height: 30px;
+    font-size: 18px;
+    padding-left: 5px;
+    margin: 15px auto;
+    border-radius: 10px;
+    border-style: none;
+    box-shadow: 0px 0px 10px;
+}
+
+.submitNew {
+    height: 35px;
+    width: 100px;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px;
+    float: left;
+}
+
+.cancel {
+    height: 35px;
+    width: 100px;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px;
+    float: right;
+}
+
+@media screen and (min-width: 1510px) {
+
+    #todoContainer {
+        position: fixed;
+        float: left;
+        width: 0;
+        height: 0;
+    }
+
+    #todo {
+        position: relative;
+        padding: 15px;
+        width: 300px;
+        top: 40px;
+        left: -400px;
+        background: #fff;
+        border-radius: 10px;
+    }
+
+    #todo h3 {
+        border-style: none;
+        margin: 0;
+    }
+
+    #todo ul {
+        display: inline;
+        list-style-type: none;
+    }
+
+    li {
+        width: auto;
+        min-width: 0;
+    }
+}
+
+@media screen and (min-height: 720px) {
+    #addNewClass {
+        overflow-y: inherit;
+        max-height: none;
+    }
+
+}

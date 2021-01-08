@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html ng-app="scheduleApp" ng-controller="ScheduleController">
+    <head>
+        <meta charset="utf-8">
+        <title>Schedule</title>
+        <meta name="description" content="Schedule">
+        <link rel="stylesheet" href="public/styles/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="public/scripts/app.js"></script>
+    </head>
+
+    <body>
+        <header id="banner">
+            <h1>My Schedule
+                <div class="add">
+                    <span id="todoButton" ng-click="todoClick()">Add Todo</span>
+                    <span id="classButton" ng-click="addClassClick()">Add Class</span>
+                </div>
+            </h1>
+        </header>
+
+        <!-- Container to house the todo list app with the h3 title and ul -->
+        <div id="todoContainer">
+            <div id="todo">
+                <!-- title also contains an add task button to bring up form to add new todo item -->
+                <h3>Todo List</h3>
+                <!-- main ul to display the list fo todo items.Uses ng-repeat to go through the entire todo
+                    database and display each todo item. Each item has a delete x button to delete the item
+                    from the list -->
+                <ul>
+                    <li ng-repeat="item in toDoItems">{{item}}<img class="delete" src = "public/images/cancel_but.png"
+                                                                   onmouseover="this.src='public/images/cancel_but_hover.png'"
+                                                                   onmouseout="this.src='public/images/cancel_but.png'"
+                                                                   ng-click="delTodo(item)"/></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Container housing small list of the current classes in the database.
+            same format as the todo list -->
+        <div id="classList">
+            <!-- title also has an add class button to bring up fomr to add new class -->
+            <h3>Classes</h3>
+            <div id="clssCont">
+                <div ng-repeat="class in testClasses">{{class.name}}<img class="delete" src = "public/images/cancel_but.png"
+                                                                         onmouseover="this.src='public/images/cancel_but_hover.png'"
+                                                                         onmouseout="this.src='public/images/cancel_but.png'"
+                                                                         ng-click="delClass(class)"/></div>
+            </div>
+        </div>
+
+        <!-- Container for the weekly schedule that displays the lecture information for each class -->
+        <div id="week">
+            <h3>Weekly Lectures</h3>
+            <div id="days">
+                <!-- A box for every day of the week displaying the lectures associated with each day -->
+                <div id="mo">
+                    <h4>Monday</h4>
+                    <p ng-repeat="class in testClasses" | ng-show="class.days.indexOf('mo') != -1">{{class.name}}<br>
+                        {{class.strTime+' - '+class.endTime}}<br>
+                        {{class.loc}}
+                    </p>
+                </div>
+                <div id="tu">
+                    <h4>Tuesday</h4>
+                    <p ng-repeat="class in testClasses" | ng-show="class.days.indexOf('tu') != -1">{{class.name}}<br>
+                        {{class.strTime+' - '+class.endTime}}<br>
+                        {{class.loc}}
+                    </p>
+                </div>
+                <div id="we">
+                    <h4>Wednesday</h4>
+                    <p ng-repeat="class in testClasses" | ng-show="class.days.indexOf('we') != -1">{{class.name}}<br>
+                        {{class.strTime+' - '+class.endTime}}<br>
+                        {{class.loc}}
+                    </p>
+                </div>
+                <div id="th">
+                    <h4>Thursday</h4>
+                    <p ng-repeat="class in testClasses" | ng-show="class.days.indexOf('th') != -1">{{class.name}}<br>
+                        {{class.strTime+' - '+class.endTime}}<br>
+                        {{class.loc}}
+                    </p>
+                </div>
+                <div id="fr">
+                    <h4>Friday</h4>
+                    <p ng-repeat="class in testClasses" | ng-show="class.days.indexOf('fr') != -1">{{class.name}}<br>
+                        {{class.strTime+' - '+class.endTime}}<br>
+                        {{class.loc}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conatiner to hold the class websites and finals information -->
+        <div id="webAndFinalsContainer">
+            <div id="web">
+                <h3>Class Websites</h3>
+                <div>
+                    <a ng-repeat="class in testClasses" href="{{class.webUrl}}">{{class.name}}</a>
+                </div>
+            </div>
+            <div id="finals">
+                <h3>Finals</h3>
+                <div id="fins">
+                    <!--
+                    <p>Lecture 1 <br> final hall 1</p>-->
+                    <p ng-repeat="class in testClasses">{{class.name}}<br>{{class.final.date}}<br>
+                        {{class.final.strTime + ' - ' + class.final.endTime}}<br>{{class.final.loc}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- container to hold both forms for new todo and new class. conatiner serves as a semi-transparent back-drop
+            to emphasize the form being displayed while also preventing interaction with rest of website while form is
+            being filled -->
+        <div id="formBackground" ng-show="isAdding()">
+            <form id="addNewTodo" ng-submit="addTodo()" ng-show="showAddTodo">
+                <h3>Add New Todo Item<br></h3>
+                <input class="inputText" type="text" ng-model="newTodoItem" ng-minlength="1" required placeholder="Type new todo here"><br>
+                <input class="submitNew" type="submit">
+                <button type="button" class="cancel" id="cancelTodo" ng-click="formCancel()">Cancel</button>
+            </form>
+            <form id="addNewClass" ng-submit="addClass()" ng-show="showAddClass">
+                <h3 style="border-bottom-style: inset; margin-bottom:10px;">Add New Class<br></h3>
+
+                <h4>Class Name:<br></h4>
+                <input class="inputText" type="text" ng-model="newClass.className" ng-minlength="1" required placeholder="Type new class name here"><br>
+                <h4>Lecture Days:<br></h4>
+
+                <label ng-repeat="day in days"><input class="newDays" type="checkbox" ng-model="newClass[day.value]">{{day.name}}</label><br>
+
+                <div id="lecTimeContainer">
+                    <div id="lecStartTime">
+                        <h4>Lecture Start Time:<br></h4>
+                        <select ng-model="newClass.newLecTime.startHr" required>
+                            <option ng-repeat="hr in hrs" value="{{hr}}">{{hr}}</option>
+                        </select> :
+                        <select ng-model="newClass.newLecTime.startMin" required>
+                            <option ng-repeat="min in minutes" value="{{min}}">{{min}}</option>
+                        </select>
+                        <select ng-model="newClass.newLecTime.startAmPm" required>
+                            <option value=""></option>
+                            <option value="am">am</option>
+                            <option value="pm">pm</option>
+                        </select>
+                    </div>
+                    <div id="lecEndTime">
+                        <h4>End Time:<br></h4>
+                        <select ng-model="newClass.newLecTime.endHr" required>
+                            <option ng-repeat="hr in hrs" value="{{hr}}">{{hr}}</option>
+                        </select> :
+                        <select ng-model="newClass.newLecTime.endMin" required>
+                            <option ng-repeat="min in minutes" value="{{min}}">{{min}}</option>
+                        </select>
+                        <select ng-model="newClass.newLecTime.endAmPm" required>
+                            <option value=""></option>
+                            <option value="am">am</option>
+                            <option value="pm">pm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Lecture Location:<br></h4>
+                <input class="inputText" type="text" ng-model="newClass.lecPlace" ng-minlength="1" required placeholder="Type in lecture hall location"><br>
+                <h4>Class website:<br></h4>
+                <input class="inputText" type="text" ng-model="newClass.web" ng-minlength="1" required placeholder="full url please"><br>
+
+                <h3 style="border-bottom-style: inset; margin-bottom:10px;">Class Final<br></h3>
+
+                <h4>Final Date:<br></h4>
+                <input class="inputText" type="text" ng-model="newClass.fnlDate" ng-minlength="1" required placeholder="i.e. 05/15/12"><br>
+
+                <div id="finTimeContainer">
+                    <div id="finStartTime">
+                        <h4>Final Start Time:<br></h4>
+                        <select ng-model="newClass.newFinTime.startHr" required>
+                            <option ng-repeat="hr in hrs" value="{{hr}}">{{hr}}</option>
+                        </select> :
+                        <select ng-model="newClass.newFinTime.startMin" required>
+                            <option ng-repeat="min in minutes" value="{{min}}">{{min}}</option>
+                        </select>
+                        <select ng-model="newClass.newFinTime.startAmPm" required>
+                            <option value=""></option>
+                            <option value="am">am</option>
+                            <option value="pm">pm</option>
+                        </select>
+                    </div>
+                    <div id="finEndTime">
+                        <h4>End Time:<br></h4>
+                        <select ng-model="newClass.newFinTime.endHr" required>
+                            <option ng-repeat="hr in hrs" value="{{hr}}">{{hr}}</option>
+                        </select> :
+                        <select ng-model="newClass.newFinTime.endMin" required>
+                            <option ng-repeat="min in minutes" value="{{min}}">{{min}}</option>
+                        </select>
+                        <select ng-model="newClass.newFinTime.endAmPm" required>
+                            <option value=""></option>
+                            <option value="am">am</option>
+                            <option value="pm">pm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Final Location:<br></h4>
+                <input class="inputText" type="text" ng-model="newClass.fnlLoc" ng-minlength="1" required placeholder="Type Final location"><br>
+
+                <input class="submitNew" type="submit">
+                <button type="button" class="cancel" id="cancelClass" ng-click="formCancel()">Cancel</button>
+            </form>
+        </div>
+    </body>
+</html>
